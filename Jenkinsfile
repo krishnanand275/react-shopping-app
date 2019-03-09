@@ -15,7 +15,7 @@ node {
      sh 'npm run test -- --coverage'
     }
     stage('Build'){
-      sh 'npm build'
+      sh 'npm run build'
     }
   }
   catch (err) {
