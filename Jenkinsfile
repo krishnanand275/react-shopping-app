@@ -22,8 +22,6 @@ node {
       if(env.BRANCH_NAME == 'master'){
         sh 'sudo docker build -t react-app --no-cache .'
         sh 'sudo docker tag react-app localhost:5000/react-app'
-        #sh 'sudo docker push localhost:5000/react-app'
-        #sh 'sudo docker rmi -f react-app localhost:5000/react-app'
       }
     }
   }
