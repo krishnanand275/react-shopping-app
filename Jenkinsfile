@@ -17,8 +17,8 @@ node {
     stage('Docker_Build'){
       sh 'docker build -t react-app --no-cache .'
     }
+   }
   catch (err) {
     throw err
   }
-}
 }
