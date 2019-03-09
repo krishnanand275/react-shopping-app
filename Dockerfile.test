@@ -23,4 +23,5 @@ COPY . /usr/src/app
 ENV NODE_ENV test
 
 # Main command
-CMD [ "npm", "test", "-- --coverage" ]
+
+CMD [ "npm","test" ]

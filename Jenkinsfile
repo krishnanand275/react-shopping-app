@@ -1,33 +1,35 @@
-node {
-  try {
-    stage('Checkout') {
-      checkout scm
-    }
-    stage('Environment') {
-      sh 'git --version'
-      echo "Branch: ${env.BRANCH_NAME}"
-      sh 'docker -v'
-      sh 'printenv'
-    }
-    stage('Build Docker test'){
-      sh 'sudo docker build -t react-test -f Dockerfile.test --no-cache . '
-    }
-    stage('Docker test'){
-      sh 'sudo docker run --rm react-test'
-    }
-    stage('Clean Docker test'){
-      sh 'sudo docker rmi react-test'
-    }
-    stage('Deploy'){
-      if(env.BRANCH_NAME == 'master'){
-        sh 'sudo docker build -t react-app --no-cache .'
-        sh 'sudo docker tag react-app localhost:5000/react-app'
-        #sh 'sudo docker push localhost:5000/react-app'
-        #sh 'sudo docker rmi -f react-app localhost:5000/react-app'
+#!/bin/groovy
+pipeline {
+  tools {
+    nodejs 'default-nodejs'
+  }
+  stages {
+    stage('Startup') {
+      steps {
+        script {
+          sh 'npm install'
+        }
       }
     }
-  }
-  catch (err) {
-    throw err
-  }
+    stage('Test') {
+      steps {
+        script {
+          sh 'npm run test'
+        }
+      }
+   post {
+        always {
+          step([$class: 'CoberturaPublisher', coberturaReportFile: 'output/coverage/jest/cobertura-coverage.xml'])
+        }
+      }
+    }
+    stage('Build') {
+      steps {
+        script {
+          sh 'npm start'
+          sh 'npm pack'
+        }
+      }
+    }
+}
 }
