@@ -1,5 +1,5 @@
 #!/bin/groovy
-pipeline {
+node {
   stages {
     stage('Startup') {
       steps {
