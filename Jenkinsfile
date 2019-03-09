@@ -14,8 +14,8 @@ node {
     stage('run test'){
      sh 'npm run test -- --coverage'
     }
-    stage('Build'){
-      sh 'npm build'
+    stage('Docker_Build'){
+      sh 'docker build -t react-app --no-cache .'
     }
   }
   catch (err) {
