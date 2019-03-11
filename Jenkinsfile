@@ -10,6 +10,7 @@ node {
     }
     stage('npm instal'){
       sh 'npm install'
+      sh  'npm audit --fix
     }
     stage('run test'){
      sh 'npm run test -- --coverage'
